@@ -3,11 +3,10 @@ Complete pipeline script to run all steps of the assignment
 Following assignment task requirements:
 1. Dataset (already prepared)
 2. Data split 70/15/15 (already done)
-3. Train all 11 models
-4. Hyperparameter tuning for all models
-5. Evaluate all models with required metrics
-6. Compare and recommend best model
-7. Generate report data
+3. Train all 11 models (with fixed hyperparameters)
+4. Evaluate all models with required metrics
+5. Compare and recommend best model
+6. Generate report data
 """
 import os
 import subprocess
@@ -41,11 +40,7 @@ def main():
         sys.exit(1)
     
     steps = [
-        # Task 4: Hyperparameter tuning (should be done before training)
-        ("python scripts/hyperparameter_tuning.py --model all", 
-         "Task 4: Perform hyperparameter tunings on all models"),
-        
-        # Task 3: Train all models
+        # Task 3: Train all models (with fixed hyperparameters)
         ("python scripts/train_all_models.py --model all", 
          "Task 3: Train all 11 models (AlexNet, GoogleNet, ResNet18, ResNet50, ResNet101, DenseNet169, MobileNetV2, MobileNetV3 Small/Large, VGG16, VGG19)"),
         
@@ -63,11 +58,10 @@ def main():
     ]
     
     print("\nThis pipeline will:")
-    print("1. Perform hyperparameter tuning for all models")
-    print("2. Train all 11 models with best hyperparameters")
-    print("3. Evaluate all models with required metrics")
-    print("4. Compare models and recommend the best one")
-    print("5. Generate report data")
+    print("1. Train all 11 models with fixed hyperparameters")
+    print("2. Evaluate all models with required metrics")
+    print("3. Compare models and recommend the best one")
+    print("4. Generate report data")
     print("\nNote: This will take several hours to complete.")
     print("Press Ctrl+C to cancel, or wait 5 seconds to continue...")
     
@@ -89,9 +83,8 @@ def main():
     print("PIPELINE COMPLETED SUCCESSFULLY!")
     print("="*80)
     print("\nGenerated files for your report:")
-    print("  - trained_models/: All trained model checkpoints")
-    print("  - hyperparameter_results/: Best hyperparameters for each model")
-    print("  - evaluation_results.json: All evaluation metrics")
+    print("  - results/trained_models/: All trained model checkpoints")
+    print("  - results/evaluation_results.json: All evaluation metrics")
     print("  - model_comparison.csv: Detailed comparison table")
     print("  - comparison_plots/: Visualization plots")
     print("  - roc_curves/: ROC curves for all models")

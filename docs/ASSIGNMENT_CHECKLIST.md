@@ -28,16 +28,6 @@ This document verifies that all assignment requirements are met.
 **Script:** `train_all_models.py`
 **Usage:** `python train_all_models.py --model all`
 
-## ✅ Task 4: Hyperparameter Tuning
-- [x] Hyperparameter tuning script created
-- [x] Tests learning rates: [0.0001, 0.001, 0.01]
-- [x] Tests batch sizes: [16, 32, 64]
-- [x] Tests momentum values: [0.8, 0.9, 0.95]
-- [x] Saves best configuration for each model
-
-**Script:** `hyperparameter_tuning.py`
-**Usage:** `python hyperparameter_tuning.py --model all`
-
 ## ✅ Task 5: Evaluation Metrics
 For binary classification (benign vs malignant):
 - [x] Accuracy - `evaluate_all_models.py`
@@ -97,33 +87,29 @@ python run_complete_pipeline.py
 
 ### Run Individual Steps:
 ```bash
-# Step 1: Hyperparameter tuning
-python hyperparameter_tuning.py --model all
+# Step 1: Train all models (with fixed hyperparameters)
+python scripts/train_all_models.py --model all
 
-# Step 2: Train all models
-python train_all_models.py --model all
+# Step 2: Evaluate all models
+python scripts/evaluate_all_models.py --model all
 
-# Step 3: Evaluate all models
-python evaluate_all_models.py --model all
+# Step 3: Compare models
+python scripts/compare_models.py
 
-# Step 4: Compare models
-python compare_models.py
-
-# Step 5: Generate report data
-python generate_report_data.py
+# Step 4: Generate report data
+python scripts/generate_report_data.py
 ```
 
 ## Files Generated
 
 After running the pipeline, you'll have:
-- `trained_models/` - All 11 trained models
-- `hyperparameter_results/` - Best hyperparameters
-- `evaluation_results.json` - All metrics
-- `model_comparison.csv` - Comparison table
-- `comparison_plots/` - Visualizations
-- `roc_curves/` - ROC curves
-- `best_model_recommendation.txt` - Recommendation
-- `report_data.txt` - Report data
+- `results/trained_models/` - All 11 trained models
+- `results/evaluation_results.json` - All metrics
+- `results/model_comparison.csv` - Comparison table
+- `results/comparison_plots/` - Visualizations
+- `results/roc_curves/` - ROC curves
+- `results/best_model_recommendation.txt` - Recommendation
+- `results/report_data.txt` - Report data
 
 ## Notes
 

@@ -7,7 +7,6 @@ Complete implementation for training and evaluating multiple deep learning model
 ✅ **Task 1**: Dataset structure (data/train, data/val, data/test)  
 ✅ **Task 2**: Dataset split (70% train, 15% val, 15% test)  
 ✅ **Task 3**: Training scripts for all 11 models  
-✅ **Task 4**: Hyperparameter tuning functionality  
 ✅ **Task 5**: Comprehensive evaluation with all required metrics  
 ✅ **Task 6**: Model comparison and recommendation  
 
@@ -39,8 +38,7 @@ Complete implementation for training and evaluating multiple deep learning model
 │   └── test/           # Test set (15%)
 │       ├── benign/
 │       └── malignant/
-├── train_all_models.py      # Train all 11 models
-├── hyperparameter_tuning.py # Hyperparameter tuning
+├── train_all_models.py      # Train all 11 models (with fixed hyperparameters)
 ├── evaluate_all_models.py    # Evaluate all models
 ├── compare_models.py        # Compare and recommend best model
 ├── run_complete_pipeline.py # Run entire pipeline
@@ -123,17 +121,7 @@ python train_vgg19.py
 - `trained_models/`: All trained model checkpoints (`{model_name}_best.pt`)
 - `trained_models/`: Training history JSON files
 
-#### Step 2: Hyperparameter Tuning (Optional)
-
-Tune hyperparameters for a specific model:
-```bash
-python hyperparameter_tuning.py --model resnet50
-```
-
-**Output:**
-- `hyperparameter_results/`: Best hyperparameters for each model
-
-#### Step 3: Evaluate All Models
+#### Step 2: Evaluate All Models
 
 Evaluate all models on test set:
 ```bash
@@ -207,7 +195,6 @@ roc_curves/
 └── ... (ROC curves for all models)
 
 best_model_recommendation.txt    # Final recommendation
-hyperparameter_results/          # Tuning results (if run)
 ```
 
 ## Model Architecture Details
@@ -220,7 +207,7 @@ All models use **transfer learning** with ImageNet pretrained weights:
 
 ## Hyperparameters
 
-Default hyperparameters (can be tuned):
+Default hyperparameters (fixed in each model):
 - Learning Rate: 0.001
 - Batch Size: 32
 - Optimizer: Adam

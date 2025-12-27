@@ -19,7 +19,6 @@ finalassignment/
 │   ├── train_all_models.py
 │   ├── evaluate_all_models.py
 │   ├── compare_models.py
-│   ├── hyperparameter_tuning.py
 │   ├── run_complete_pipeline.py
 │   └── generate_report_data.py
 │
@@ -56,7 +55,6 @@ finalassignment/
 │
 ├── results/                  # Output files (generated)
 │   ├── trained_models/       # Model checkpoints
-│   ├── hyperparameter_results/  # Tuning results
 │   ├── evaluation_results.json
 │   ├── model_comparison.csv
 │   ├── comparison_plots/
@@ -106,7 +104,6 @@ finalassignment/
 ├── train_all_models.py # Main training script
 ├── evaluate_all_models.py
 ├── compare_models.py
-├── hyperparameter_tuning.py
 ├── model.py
 ├── requirements.txt
 ├── README.md

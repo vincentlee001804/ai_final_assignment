@@ -15,7 +15,6 @@ finalassignment/
 │   ├── train_all_models.py
 │   ├── evaluate_all_models.py
 │   ├── compare_models.py
-│   ├── hyperparameter_tuning.py
 │   ├── run_complete_pipeline.py
 │   └── generate_report_data.py
 │
@@ -80,30 +79,14 @@ python scripts/run_complete_pipeline.py
 ```
 
 **This will execute:**
-1. Task 4: Hyperparameter tuning for all models
-2. Task 3: Train all 11 models
-3. Task 5: Evaluate all models
-4. Task 6: Compare and recommend best model
-5. Task 7: Generate report data
+1. Task 3: Train all 11 models (with fixed hyperparameters)
+2. Task 5: Evaluate all models
+3. Task 6: Compare and recommend best model
+4. Task 7: Generate report data
 
 ### Option 2: Run Steps Individually
 
-#### Step 1: Hyperparameter Tuning (Task 4)
-
-**Tune hyperparameters for all models:**
-```bash
-python scripts/hyperparameter_tuning.py --model all
-```
-
-**Tune hyperparameters for a specific model:**
-```bash
-python scripts/hyperparameter_tuning.py --model resnet50
-```
-
-**Output:**
-- `results/hyperparameter_results/`: Best hyperparameters for each model
-
-#### Step 2: Train All Models (Task 3)
+#### Step 1: Train All Models (Task 3)
 
 **Train all 11 models:**
 ```bash
@@ -126,7 +109,7 @@ python models/train_resnet50.py
 - `results/trained_models/`: All trained model checkpoints (`{model_name}_best.pt`)
 - `results/trained_models/`: Training history JSON files
 
-#### Step 3: Evaluate All Models (Task 5)
+#### Step 2: Evaluate All Models (Task 5)
 
 **Evaluate all models on test set:**
 ```bash
@@ -152,7 +135,7 @@ python scripts/evaluate_all_models.py --model resnet50
 - `results/roc_curves/`: ROC curve plots for each model
 - Console output with detailed metrics
 
-#### Step 4: Compare Models (Task 6)
+#### Step 3: Compare Models (Task 6)
 
 Compare all models and get recommendation:
 ```bash
@@ -164,7 +147,7 @@ python scripts/compare_models.py
 - `results/comparison_plots/model_comparison.png`: Visualization plots
 - `results/best_model_recommendation.txt`: Final recommendation
 
-#### Step 5: Generate Report Data (Task 7)
+#### Step 4: Generate Report Data (Task 7)
 
 Generate formatted data for your technical report:
 ```bash
@@ -212,8 +195,7 @@ All outputs are saved in `results/` folder:
 
 ✅ Task 1: Dataset (data/)  
 ✅ Task 2: Data split (70/15/15)  
-✅ Task 3: Train all 11 models  
-✅ Task 4: Hyperparameter tuning  
+✅ Task 3: Train all 11 models (with fixed hyperparameters)  
 ✅ Task 5: Evaluation with all metrics  
 ✅ Task 6: Compare and recommend  
 ✅ Task 7: Report data generation  
