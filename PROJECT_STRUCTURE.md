@@ -149,8 +149,13 @@ python scripts/evaluate_all_models.py --model resnet50
 **Output:**
 - `results/evaluation_results.json` - All evaluation metrics (JSON format)
 - `results/roc_curves/{model}_roc.png` - Individual ROC curve for each model
+- `results/confusion_matrices/{model}_confusion_matrix.png` - Individual confusion matrix for each model
+- `results/confusion_matrices_all_models.png` - Combined grid showing all confusion matrices
 
-**Note:** The evaluation script currently outputs JSON. If you need CSV format, you can convert the JSON or modify the script to output CSV directly.
+**Note:** You can also regenerate confusion matrices from existing JSON file using:
+```bash
+python scripts/generate_confusion_matrices.py
+```
 
 ### 4. Model Comparison
 
@@ -254,6 +259,8 @@ python scripts/run_complete_pipeline.py
 | `results/evaluation_results.json` | All evaluation metrics |
 | `results/model_comparison.csv` | Comparison table |
 | `results/roc_curves/{model}_roc.png` | ROC curves per model |
+| `results/confusion_matrices/{model}_confusion_matrix.png` | Confusion matrices per model |
+| `results/confusion_matrices_all_models.png` | Combined confusion matrices grid |
 | `results/comparison_plots/model_comparison.png` | Comparison visualization |
 | `results/best_model_recommendation.txt` | Best model recommendation |
 

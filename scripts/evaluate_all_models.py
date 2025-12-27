@@ -17,6 +17,14 @@ from sklearn.metrics import (
 import matplotlib.pyplot as plt
 import sys
 import os
+from math import ceil, sqrt
+
+# Try to import seaborn, fallback to matplotlib if not available
+try:
+    import seaborn as sns
+    HAS_SEABORN = True
+except ImportError:
+    HAS_SEABORN = False
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from scripts.train_all_models import get_model, MODEL_CONFIGS
@@ -139,6 +147,31 @@ def evaluate_model(model_name, test_loader, num_classes, device, class_names):
         plt.savefig(os.path.join(roc_dir, f"{model_name}_roc.png"))
         plt.close()
         
+        # Save confusion matrix
+        plt.figure(figsize=(8, 6))
+        if HAS_SEABORN:
+            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                        xticklabels=class_names, yticklabels=class_names,
+                        cbar_kws={'label': 'Count'})
+        else:
+            im = plt.imshow(cm, interpolation='nearest', cmap='Blues')
+            plt.colorbar(im, label='Count')
+            plt.xticks(range(len(class_names)), class_names)
+            plt.yticks(range(len(class_names)), class_names)
+            for i in range(len(class_names)):
+                for j in range(len(class_names)):
+                    plt.text(j, i, str(cm[i, j]), ha='center', va='center', 
+                            color='white' if cm[i, j] > cm.max() / 2 else 'black')
+        plt.title(f'Confusion Matrix - {model_name.upper()}\nAccuracy: {accuracy:.4f}')
+        plt.ylabel('True Label')
+        plt.xlabel('Predicted Label')
+        plt.tight_layout()
+        
+        confusion_dir = os.path.join(results_dir, "confusion_matrices")
+        os.makedirs(confusion_dir, exist_ok=True)
+        plt.savefig(os.path.join(confusion_dir, f"{model_name}_confusion_matrix.png"))
+        plt.close()
+        
     else:
         # Multi-class classification
         precision = precision_score(all_labels, all_preds, average='macro', zero_division=0)
@@ -220,6 +253,59 @@ def main():
     results_path = os.path.join(results_dir, "evaluation_results.json")
     with open(results_path, 'w') as f:
         json.dump(all_results, f, indent=2)
+    
+    # Generate combined confusion matrices grid
+    if all_results:
+        try:
+            num_models = len(all_results)
+            # Calculate grid dimensions (approximately square)
+            cols = int(ceil(sqrt(num_models)))
+            rows = int(ceil(num_models / cols))
+            
+            fig, axes = plt.subplots(rows, cols, figsize=(5*cols, 5*rows))
+            if num_models == 1:
+                axes = [axes]
+            else:
+                axes = axes.flatten()
+            
+            for idx, (model_name, metrics) in enumerate(all_results.items()):
+                if 'confusion_matrix' in metrics:
+                    cm = np.array(metrics['confusion_matrix'])
+                    accuracy = metrics.get('accuracy', 0)
+                    
+                    if HAS_SEABORN:
+                        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=axes[idx],
+                                    xticklabels=class_names, yticklabels=class_names,
+                                    cbar_kws={'label': 'Count'})
+                    else:
+                        im = axes[idx].imshow(cm, interpolation='nearest', cmap='Blues')
+                        plt.colorbar(im, ax=axes[idx], label='Count')
+                        axes[idx].set_xticks(range(len(class_names)))
+                        axes[idx].set_xticklabels(class_names)
+                        axes[idx].set_yticks(range(len(class_names)))
+                        axes[idx].set_yticklabels(class_names)
+                        for i in range(len(class_names)):
+                            for j in range(len(class_names)):
+                                axes[idx].text(j, i, str(cm[i, j]), ha='center', va='center',
+                                              color='white' if cm[i, j] > cm.max() / 2 else 'black')
+                    axes[idx].set_title(f'{model_name.upper()}\nAcc: {accuracy:.4f}', fontsize=10)
+                    axes[idx].set_ylabel('True Label', fontsize=9)
+                    axes[idx].set_xlabel('Predicted Label', fontsize=9)
+            
+            # Hide unused subplots
+            for idx in range(num_models, len(axes)):
+                axes[idx].axis('off')
+            
+            plt.suptitle('Confusion Matrices - All Models', fontsize=16, y=0.995)
+            plt.tight_layout()
+            
+            confusion_dir = os.path.join(results_dir, "confusion_matrices")
+            os.makedirs(confusion_dir, exist_ok=True)
+            plt.savefig(os.path.join(results_dir, "confusion_matrices_all_models.png"), dpi=300, bbox_inches='tight')
+            plt.close()
+            print(f"\nCombined confusion matrices saved to: {os.path.join(results_dir, 'confusion_matrices_all_models.png')}")
+        except Exception as e:
+            print(f"Warning: Could not generate combined confusion matrices: {str(e)}")
     
     # Print summary comparison
     print(f"\n{'='*60}")
